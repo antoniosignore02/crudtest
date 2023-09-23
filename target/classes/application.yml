@@ -1,0 +1,34 @@
+spring:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5433/crudrest
+    username: crudrest
+    password: crudrest
+
+logging:
+  level:
+    org:
+      hibernate:
+        type: trace
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

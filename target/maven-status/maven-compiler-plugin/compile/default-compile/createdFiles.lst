@@ -1,0 +1,5 @@
+com/signore/crud/CrudApplication.class
+com/signore/crud/repositories/CustomerRepository.class
+com/signore/crud/model/BankAccount.class
+com/signore/crud/rest/CustomerController.class
+com/signore/crud/model/Customer.class
