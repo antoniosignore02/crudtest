@@ -25,7 +25,7 @@ public class Customer {
         this.lastName = lastName;
     }
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonBackReference
     private List<BankAccount> bankAccountList;
 
