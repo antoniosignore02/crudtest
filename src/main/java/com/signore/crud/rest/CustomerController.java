@@ -18,6 +18,7 @@ public class CustomerController {
     private CustomerRepository repository;
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
+
     @GetMapping("/crud/customers")
     public Collection<Customer> getCustomers() {
         List<Customer> customers = repository.findAll();
@@ -40,12 +41,14 @@ public class CustomerController {
         return savedCustomer;
     }
 
+    @DeleteMapping("/crud/customers/{pk}")
+    public void delete (@PathVariable("pk") Long pk){
+        Optional<Customer> customerByPk = repository.findById(pk);
+        if(customerByPk.isPresent()){
+            repository.delete(customerByPk.get());
+        }
+    }
 
-
-//@PostMapping("/employees")
-//  Employee newEmployee(@RequestBody Employee newEmployee) {
-//    return repository.save(newEmployee);
-//  }
 }
 
 

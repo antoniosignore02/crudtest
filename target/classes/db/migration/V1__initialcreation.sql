@@ -4,7 +4,7 @@ CREATE TABLE customer
     first_name character varying(255),
     last_name character varying(255),
     CONSTRAINT customer_pkey PRIMARY KEY (id)
-)
+);
 
 CREATE TABLE bank_account
 (
