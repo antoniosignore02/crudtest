@@ -45,8 +45,8 @@ public class CustomerController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Customer postNewCustomer(@RequestBody CustomerBean customerBean){
-        Customer customer = customerService.saveCustomer(customerBean);
-        return customer;
+        Customer savedCustomer = customerService.saveCustomer(customerBean);
+        return savedCustomer;
     }
 
     @DeleteMapping("/crud/customers/{pk}")
