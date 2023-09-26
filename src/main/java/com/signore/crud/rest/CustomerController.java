@@ -19,25 +19,19 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @Autowired
-    private CustomerRepository repository;
-
-
     @CrossOrigin(origins = "http://127.0.0.1:5500")
 
     @GetMapping("/crud/customers")
     public Collection<Customer> getCustomers() {
-        List<Customer> customers = repository.findAll();
+        List<Customer> customers = customerService.getAllCustomers();
         return customers;
     }
 
+
     @GetMapping("/crud/customers/{pk}")
     public Customer getCustomerByPk(@PathVariable("pk") Long pk) {
-        Optional<Customer> customerByPk = repository.findById(pk);
-        if(customerByPk.isPresent()){
-            log.info("numero di bankaccount:{} ",customerByPk.get().getBankAccountList());
-            return customerByPk.get();
-        }
+        Customer customerByPk = customerService.getCustomer(pk);
+        if (customerByPk != null) return customerByPk;
         return null;
     }
 
@@ -51,11 +45,10 @@ public class CustomerController {
 
     @DeleteMapping("/crud/customers/{pk}")
     public void delete (@PathVariable("pk") Long pk){
-        Optional<Customer> customerByPk = repository.findById(pk);
-        if(customerByPk.isPresent()){
-            repository.delete(customerByPk.get());
-        }
+        customerService.deleteCustomer(pk);
     }
+
+
 
 }
 
