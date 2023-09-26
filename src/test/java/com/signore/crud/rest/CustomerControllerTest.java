@@ -47,8 +47,22 @@ class CustomerControllerTest {
     }
 
     @Test
-    void getCustomerByPk() {
+    void getCustomerByPk() throws Exception {
+
+        customerRepository.deleteAll();
+        Customer savedcustomer = customerRepository.save(new Customer("nicholas", "signore"));
+
+
+        this.mockMvc
+                .perform(get("/crud/customers/" + savedcustomer.getId()))
+                .andDo(print())
+                .andExpect(status().isOk())    // <--- mi aspetto 200
+                .andExpect(content()
+                        .string(containsString("{\"id\":"+ savedcustomer.getId() +",\"firstName\":\"nicholas\",\"lastName\":\"signore\"}"))); // <--- mi aspetto nicholas signore
+
     }
+
+
 
     @Test
     void postNewCustomer() {
