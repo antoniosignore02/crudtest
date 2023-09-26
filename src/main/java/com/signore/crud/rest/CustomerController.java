@@ -17,7 +17,11 @@ import java.util.Optional;
 public class CustomerController {
 
     @Autowired
+    private CustomerService customerService;
+
+    @Autowired
     private CustomerRepository repository;
+
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
 
@@ -41,9 +45,8 @@ public class CustomerController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Customer postNewCustomer(@RequestBody CustomerBean customerBean){
-        Customer customer = new Customer(customerBean.getFirstName(), customerBean.getLastName());
-        Customer savedCustomer = repository.save(customer);
-        return savedCustomer;
+        Customer customer = customerService.saveCustomer(customerBean);
+        return customer;
     }
 
     @DeleteMapping("/crud/customers/{pk}")

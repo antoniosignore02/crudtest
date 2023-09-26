@@ -95,8 +95,6 @@ class CustomerControllerTest {
 
     }
 
-
-
     @Test
     void postNewCustomer() throws Exception {
         String url = "/crud/customer";
@@ -107,8 +105,6 @@ class CustomerControllerTest {
                 .content(requestJson))
                 .andDo(print())
                 .andExpect(status().isOk());
-
-
 
     }
 
