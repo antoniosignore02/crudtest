@@ -1,5 +1,6 @@
 package com.signore.crud.rest;
 
+import com.signore.crud.beans.CustomerBean;
 import com.signore.crud.model.Customer;
 import com.signore.crud.repositories.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,8 @@ public class CustomerController {
     @PostMapping(value = "/crud/customer",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Customer postNewCustomer(@RequestBody Customer customer){
+    public Customer postNewCustomer(@RequestBody CustomerBean customerBean){
+        Customer customer = new Customer(customerBean.getFirstName(), customerBean.getLastName());
         Customer savedCustomer = repository.save(customer);
         return savedCustomer;
     }

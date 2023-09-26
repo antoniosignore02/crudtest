@@ -101,7 +101,7 @@ class CustomerControllerTest {
     void postNewCustomer() throws Exception {
         String url = "/crud/customer";
         String contentType = "application/json;charset=UTF-8";
-        String requestJson = "{\"id\":null,\"firstName\":\"Francesco\",\"lastName\":\"Signore\"}";
+        String requestJson = "{\"firstName\":\"Francesco\",\"lastName\":\"Signore\"}";
 
         mockMvc.perform(post(url).contentType(contentType)
                 .content(requestJson))
