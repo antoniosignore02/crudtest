@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -18,6 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -82,9 +84,7 @@ class CustomerControllerTest {
     @Test
     void getCustomerByPk() throws Exception {
 
-        customerRepository.deleteAll();
         Customer savedcustomer = customerRepository.save(new Customer("nicholas", "signore"));
-
 
         this.mockMvc
                 .perform(get("/crud/customers/" + savedcustomer.getId()))
@@ -98,7 +98,18 @@ class CustomerControllerTest {
 
 
     @Test
-    void postNewCustomer() {
+    void postNewCustomer() throws Exception {
+        String url = "/crud/customer";
+        String contentType = "application/json;charset=UTF-8";
+        String requestJson = "{\"id\":null,\"firstName\":\"Francesco\",\"lastName\":\"Signore\"}";
+
+        mockMvc.perform(post(url).contentType(contentType)
+                .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+
+
     }
 
     @Test

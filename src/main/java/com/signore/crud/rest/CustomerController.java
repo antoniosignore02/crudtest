@@ -4,6 +4,7 @@ import com.signore.crud.model.Customer;
 import com.signore.crud.repositories.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -35,7 +36,9 @@ public class CustomerController {
         return null;
     }
 
-    @PostMapping("/crud/customer")
+    @PostMapping(value = "/crud/customer",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public Customer postNewCustomer(@RequestBody Customer customer){
         Customer savedCustomer = repository.save(customer);
         return savedCustomer;
