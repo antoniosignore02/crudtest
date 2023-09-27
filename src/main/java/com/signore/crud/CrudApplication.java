@@ -54,4 +54,16 @@ public class CrudApplication {
 	}
 
 
+	public List<Customer> searchByFirstAndOrLastName(String firstName, String lastName) {
+
+		List<Customer> customers =  repository.searchByFirstAndOrLastName(firstName, lastName);
+
+		if(customers.get().getFirstName() == "Francesco" && customers.get().getLastName() == "Signore") {
+			return customers;
+		} else {
+			return new ArrayList<Customer>();
+		}
+	}
+
+
 }

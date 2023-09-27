@@ -17,21 +17,23 @@ import java.util.Optional;
 public class CustomerController {
 
     @Autowired
-    private CustomerService customerService;
+    private CustomerRepository repository;
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
 
     @GetMapping("/crud/customers")
     public Collection<Customer> getCustomers() {
-        List<Customer> customers = customerService.getAllCustomers();
+        List<Customer> customers = repository.findAll();
         return customers;
     }
 
-
     @GetMapping("/crud/customers/{pk}")
     public Customer getCustomerByPk(@PathVariable("pk") Long pk) {
-        Customer customerByPk = customerService.getCustomer(pk);
-        if (customerByPk != null) return customerByPk;
+        Optional<Customer> customerByPk = repository.findById(pk);
+        if(customerByPk.isPresent()){
+            log.info("numero di bankaccount:{} ",customerByPk.get().getBankAccountList());
+            return customerByPk.get();
+        }
         return null;
     }
 
@@ -39,16 +41,18 @@ public class CustomerController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Customer postNewCustomer(@RequestBody CustomerBean customerBean){
-        Customer savedCustomer = customerService.saveCustomer(customerBean);
+        Customer customer = new Customer(customerBean.getFirstName(), customerBean.getLastName());
+        Customer savedCustomer = repository.save(customer);
         return savedCustomer;
     }
 
     @DeleteMapping("/crud/customers/{pk}")
     public void delete (@PathVariable("pk") Long pk){
-        customerService.deleteCustomer(pk);
+        Optional<Customer> customerByPk = repository.findById(pk);
+        if(customerByPk.isPresent()){
+            repository.delete(customerByPk.get());
+        }
     }
-
-
 
 }
 

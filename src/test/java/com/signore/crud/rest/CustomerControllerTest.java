@@ -29,11 +29,19 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.List;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @Testcontainers
 @ContextConfiguration(initializers = {CustomerControllerTest.Initializer.class})
 class CustomerControllerTest {
+
+
+
+
+    @Autowired
+    private CustomerRepository repository;
 
     @Autowired
     private MockMvc mockMvc;
@@ -110,5 +118,25 @@ class CustomerControllerTest {
 
     @Test
     void delete() {
+    }
+
+    @Test
+    void findCustomer(){
+
+
+
+
+        @Override
+        public List<Customer> searchByFirstAndLastName(String firstName, String lastName) {
+
+            List<Customer> customers =  repository.findByFirstNameAndLastName(firstName, lastName);
+
+            if(customers.size() > 0) {
+                return customers;
+            } else {
+                return new ArrayList<Customer>();
+            }
+        }
+
     }
 }
