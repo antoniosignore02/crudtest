@@ -2,11 +2,16 @@ package com.signore.crud.rest;
 
 import com.signore.crud.beans.CustomerBean;
 import com.signore.crud.model.Customer;
-import com.signore.crud.repositories.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,8 +35,7 @@ public class CustomerController {
     @GetMapping("/crud/customers/{pk}")
     public Customer getCustomerByPk(@PathVariable("pk") Long pk) {
         Customer customerByPk = customerService.getCustomer(pk);
-        if (customerByPk != null) return customerByPk;
-        return null;
+        return customerByPk;
     }
 
     @GetMapping("/crud/customers/{firstName}/{lastName}")
