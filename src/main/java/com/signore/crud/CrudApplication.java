@@ -28,7 +28,6 @@ public class CrudApplication {
 		repository.save(new Customer("Kim", "Bauer"));
 		repository.save(new Customer("David", "Palmer"));
 		repository.save(new Customer("Michelle", "Dessler"));
-
 		Customer mickyMouse = new Customer("micky","mouse");
 
 		List<BankAccount> bankAccountList = new ArrayList<>();

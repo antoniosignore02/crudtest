@@ -136,4 +136,18 @@ class CustomerControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void customerCount() throws Exception {
+        String url = "/crud/customer/count";
+        mockMvc.perform(get(url))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content()
+                        .string("6"));
+        ;
+    }
+
+
+
 }

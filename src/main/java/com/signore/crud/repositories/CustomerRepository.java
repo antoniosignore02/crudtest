@@ -14,5 +14,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Optional<Customer> searchByFirstNameAndLastName(String firstName, String lastName);
 
+    // todo crea il prototype per contare in numero di customer
+    int jjdlakdjlaskjdlaskdjaskdjalsdk();
 
 }

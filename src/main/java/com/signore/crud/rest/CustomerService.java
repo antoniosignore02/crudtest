@@ -49,4 +49,6 @@ public class CustomerService {
     public Optional<Customer> searchByNomeECognome(String firstName, String lastName) {
         return customerRepository.searchByFirstNameAndLastName(firstName, lastName);
     }
+
+    // to do count
 }
