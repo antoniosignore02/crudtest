@@ -7,4 +7,3 @@ import java.util.List;
 public interface PersonService {
     List<Customer> searchByFirstAndOrLastName(String firstName, String lastName);
 }
-}

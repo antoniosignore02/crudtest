@@ -2,6 +2,7 @@ package com.signore.crud.rest;
 
 import com.signore.crud.model.Customer;
 import com.signore.crud.repositories.CustomerRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,6 +31,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -121,22 +123,17 @@ class CustomerControllerTest {
     }
 
     @Test
-    void findCustomer(){
+    void findCustomer() throws Exception {
 
+        repository.save(new Customer("Francesco", "Signore"));
+        Optional<Customer> customers =  repository.searchByFirstNameAndLastName("Francesco", "Signore");
 
+        Assertions.assertThat(customers.isPresent()).isTrue();
 
+        String url = "/crud/customer/francesco/signore";
 
-        @Override
-        public List<Customer> searchByFirstAndLastName(String firstName, String lastName) {
-
-            List<Customer> customers =  repository.findByFirstNameAndLastName(firstName, lastName);
-
-            if(customers.size() > 0) {
-                return customers;
-            } else {
-                return new ArrayList<Customer>();
-            }
-        }
-
+        mockMvc.perform(post(url))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

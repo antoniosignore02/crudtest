@@ -17,42 +17,45 @@ import java.util.Optional;
 public class CustomerController {
 
     @Autowired
-    private CustomerRepository repository;
+    private CustomerService customerService;
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
 
     @GetMapping("/crud/customers")
     public Collection<Customer> getCustomers() {
-        List<Customer> customers = repository.findAll();
+        List<Customer> customers = customerService.getAllCustomers();
         return customers;
     }
 
     @GetMapping("/crud/customers/{pk}")
     public Customer getCustomerByPk(@PathVariable("pk") Long pk) {
-        Optional<Customer> customerByPk = repository.findById(pk);
-        if(customerByPk.isPresent()){
-            log.info("numero di bankaccount:{} ",customerByPk.get().getBankAccountList());
-            return customerByPk.get();
-        }
+        Customer customerByPk = customerService.getCustomer(pk);
+        if (customerByPk != null) return customerByPk;
         return null;
+    }
+
+    @GetMapping("/crud/customers/{firstName}/{lastName}")
+    public Customer search(@PathVariable("firstName") String firstName,
+                           @PathVariable("lastName") String lastName ) {
+        Optional<Customer> customer = customerService.searchByNomeECognome(firstName, lastName);
+        return customer.orElse(null);
     }
 
     @PostMapping(value = "/crud/customer",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public Customer postNewCustomer(@RequestBody CustomerBean customerBean){
-        Customer customer = new Customer(customerBean.getFirstName(), customerBean.getLastName());
-        Customer savedCustomer = repository.save(customer);
+        Customer savedCustomer = customerService.saveCustomer(customerBean);
         return savedCustomer;
     }
 
     @DeleteMapping("/crud/customers/{pk}")
     public void delete (@PathVariable("pk") Long pk){
-        Optional<Customer> customerByPk = repository.findById(pk);
-        if(customerByPk.isPresent()){
-            repository.delete(customerByPk.get());
-        }
+        customerService.deleteCustomer(pk);
     }
+
+
+
 
 }
 
