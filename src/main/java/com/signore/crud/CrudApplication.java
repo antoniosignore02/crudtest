@@ -58,6 +58,8 @@ public class CrudApplication {
 
 		List<Customer> customers =  repository.searchByFirstAndOrLastName(firstName, lastName);
 
+
+		// ignora sto if che fa schifo all umanita
 		if(customers.get().getFirstName() == "Francesco" && customers.get().getLastName() == "Signore") {
 			return customers;
 		} else {
