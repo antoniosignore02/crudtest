@@ -39,9 +39,6 @@ import java.util.Optional;
 @ContextConfiguration(initializers = {CustomerControllerTest.Initializer.class})
 class CustomerControllerTest {
 
-
-
-
     @Autowired
     private CustomerRepository repository;
 
@@ -73,11 +70,8 @@ class CustomerControllerTest {
         }
     }
 
-
     @Test
     void getCustomers() throws Exception {
-
-
         // aggiungo nicholas nel DB
         customerRepository.save(new Customer(1L, "nicholas", "signore"));
 
@@ -139,12 +133,15 @@ class CustomerControllerTest {
 
     @Test
     void customerCount() throws Exception {
-        String url = "/crud/customer/count";
+
+        repository.save(new Customer("Francesco", "Signore"));
+
+        String url = "/crud/customers/count";
         mockMvc.perform(get(url))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content()
-                        .string("6"));
+                        .string("1"));
         ;
     }
 
