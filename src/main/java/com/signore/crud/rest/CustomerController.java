@@ -2,6 +2,7 @@ package com.signore.crud.rest;
 
 import com.signore.crud.beans.CustomerBean;
 import com.signore.crud.model.Customer;
+import com.signore.crud.repositories.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -23,6 +24,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
 
@@ -58,9 +62,16 @@ public class CustomerController {
         customerService.deleteCustomer(pk);
     }
 
+    @GetMapping("/crud/customers/count")
+    public long count(String firstName,
+                      String lastName ) {
+        long customer = customerService.countByfirstNameAndLastName(firstName, lastName);
+        return customer;
+    }
+    }
 
 
 
-}
+
 
 

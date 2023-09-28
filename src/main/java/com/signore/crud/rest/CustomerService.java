@@ -51,4 +51,8 @@ public class CustomerService {
     }
 
     // to do count
+
+    public long countByfirstNameAndLastName(String firstName,String lastName) {
+        return customerRepository.count();
+    }
 }
