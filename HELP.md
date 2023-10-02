@@ -23,7 +23,7 @@ curl -X POST -H 'Content-Type: application/json' -d '{"id":null,"firstName":"Fra
 
 
 UPDATE EXISTING CUSTOMER
-curl -X POST -H 'Content-Type: application/json' -d '{"id":6,"firstName":"Francesco","lastName":"Santos Signore"}' localhost:8080/crud/customer
+curl -X PUT -H 'Content-Type: application/json' -d '{"id":6,"firstName":"Francesco","lastName":"Santos Signore"}' localhost:8080/crud/customer
 
 
 GET ALL CUSTOMERS

@@ -1,6 +1,7 @@
 package com.signore.crud.rest;
 
 import com.signore.crud.beans.CustomerBean;
+import com.signore.crud.beans.CustomerUpdateBean;
 import com.signore.crud.model.Customer;
 import com.signore.crud.repositories.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,19 @@ public class CustomerService {
         return save;
     }
 
+    public Customer updateCustomer (CustomerUpdateBean bean){
+
+        Long id = bean.getId();
+
+        // cerco il customer con Id = bean.getId();
+        Optional<Customer> customerReturned = customerRepository.findById(id);
+
+        if (customerReturned.isEmpty())
+            throw new IllegalArgumentException("customer non trovato con id = " +id);
+
+        return  customerReturned.get();
+
+    }
 
     public List<Customer> getAllCustomers() {
         List<Customer> customers = customerRepository.findAll();

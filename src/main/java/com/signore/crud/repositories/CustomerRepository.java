@@ -8,9 +8,7 @@ import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    List<Customer> findByLastNameStartsWithIgnoreCase(String lastName);
-
-    List<Customer> findByLastNameEndsWith(String lastName);
+    Optional<Customer> findById(Long id);
 
     Optional<Customer> searchByFirstNameAndLastName(String firstName, String lastName);
 

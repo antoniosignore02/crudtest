@@ -1,11 +1,11 @@
 package com.signore.crud.rest;
 
 import com.signore.crud.beans.CustomerBean;
+import com.signore.crud.beans.CustomerUpdateBean;
 import com.signore.crud.model.Customer;
 import com.signore.crud.repositories.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -18,9 +18,6 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
-
-    @Autowired
-    private CustomerRepository customerRepository;
 
     @CrossOrigin(origins = "http://127.0.0.1:5500")
 
@@ -43,13 +40,7 @@ public class CustomerController {
         return customer.orElse(null);
     }
 
-    @PostMapping(value = "/crud/customer",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public Customer postNewCustomer(@RequestBody CustomerBean customerBean) {
-        Customer savedCustomer = customerService.saveCustomer(customerBean);
-        return savedCustomer;
-    }
+
 
     @DeleteMapping("/crud/customers/{pk}")
     public void delete(@PathVariable("pk") Long pk) {
@@ -63,18 +54,34 @@ public class CustomerController {
         return customer;
     }
 
-    @PutMapping("/crud/customers/{id}/edit")
-    public Customer updateCustomer(@PathVariable Long id, @RequestBody Customer updatedCustomer) {
+    // POST http://host:8080/crud/customer"
+    @PostMapping(value = "/crud/customer")
+    public Customer postNewCustomer(@RequestBody CustomerBean customerBean) {
+        Customer savedCustomer = customerService.saveCustomer(customerBean);
+        return savedCustomer;
+    }
 
-        if (!customerRepository.existsById(id)) {
-
-            throw new IllegalArgumentException("Customer not found with id: " + id);
+    // PUT http://host:8080/crud/customer"
+    /*
+        public class CustomerUpdateBean {
+            Long id;
+            String firstName;
+            String lastName;
         }
 
-        updatedCustomer.setId(id);
+        da terminal
+        curl -X PUT -H 'Content-Type: application/json' -d '{"id":35,"firstName":"Francesco","lastName":"Provolone"}' localhost:8080/crud/customer
+     */
+    @PutMapping(value = "/crud/customer")
+    public Customer update(@RequestBody CustomerUpdateBean customerUpdateBean) {
+        Customer  customerUpdated = customerService.updateCustomer(customerUpdateBean);
 
-        return customerRepository.save(updatedCustomer);
+        log.info("returning customerUpdated : {} ", customerUpdated.toString());
+
+        return customerUpdated;
     }
+
+
 }
 
 
