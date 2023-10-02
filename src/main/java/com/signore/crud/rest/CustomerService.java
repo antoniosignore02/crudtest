@@ -35,7 +35,10 @@ public class CustomerService {
         if (customerReturned.isEmpty())
             throw new IllegalArgumentException("customer non trovato con id = " +id);
 
-        return  customerReturned.get();
+        customerReturned.get().setFirstName(bean.getFirstName());
+        customerReturned.get().setLastName(bean.getLastName());
+        Customer returned = customerRepository.save(customerReturned.get());
+        return  returned;
 
     }
 

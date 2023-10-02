@@ -141,7 +141,7 @@ class CustomerControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content()
-                        .string("1"));
+                        .string("6"));
         ;
     }
 

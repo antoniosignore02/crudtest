@@ -6,6 +6,7 @@ import com.signore.crud.model.Customer;
 import com.signore.crud.repositories.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -55,7 +56,9 @@ public class CustomerController {
     }
 
     // POST http://host:8080/crud/customer"
-    @PostMapping(value = "/crud/customer")
+    @PostMapping(value = "/crud/customers",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public Customer postNewCustomer(@RequestBody CustomerBean customerBean) {
         Customer savedCustomer = customerService.saveCustomer(customerBean);
         return savedCustomer;
@@ -72,7 +75,9 @@ public class CustomerController {
         da terminal
         curl -X PUT -H 'Content-Type: application/json' -d '{"id":35,"firstName":"Francesco","lastName":"Provolone"}' localhost:8080/crud/customer
      */
-    @PutMapping(value = "/crud/customer")
+    @PutMapping(value = "/crud/customer",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public Customer update(@RequestBody CustomerUpdateBean customerUpdateBean) {
         Customer  customerUpdated = customerService.updateCustomer(customerUpdateBean);
 
