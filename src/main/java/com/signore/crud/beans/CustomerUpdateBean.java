@@ -11,4 +11,5 @@ public class CustomerUpdateBean {
     Long id;
     String firstName;
     String lastName;
+    String middleName;
 }

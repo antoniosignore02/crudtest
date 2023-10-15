@@ -26,15 +26,19 @@ public class Customer {
 
     private String lastName;
 
-    public Customer(Long id, String firstName, String lastName) {
+    private String middleName;
+
+    public Customer(Long id, String firstName,String middleName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.middleName = middleName;
     }
 
-    public Customer(String firstName, String lastName) {
+    public Customer(String firstName,String middleName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.middleName = middleName;
     }
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)

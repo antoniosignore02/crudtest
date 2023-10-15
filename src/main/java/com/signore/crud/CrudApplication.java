@@ -23,12 +23,12 @@ public class CrudApplication {
 
 	@PostConstruct
 	public void initializeSomething(){
-		repository.save(new Customer("Jack", "Bauer"));
-		repository.save(new Customer("Chloe", "O'Brian"));
-		repository.save(new Customer("Kim", "Bauer"));
-		repository.save(new Customer("David", "Palmer"));
-		repository.save(new Customer("Michelle", "Dessler"));
-		Customer mickyMouse = new Customer("micky","mouse");
+		repository.save(new Customer("Jack", "Bauer", "Timothy"));
+		repository.save(new Customer("Chloe", "O'Brian", "Timothy"));
+		repository.save(new Customer("Kim", "Bauer", "Timothy"));
+		repository.save(new Customer("David", "Palmer", "Timothy"));
+		repository.save(new Customer("Michelle", "Dessler", "Timothy"));
+		Customer mickyMouse = new Customer("micky","mouse", "Timothy");
 
 		List<BankAccount> bankAccountList = new ArrayList<>();
 

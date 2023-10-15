@@ -20,7 +20,7 @@ public class CustomerService {
 
     public Customer saveCustomer (CustomerBean bean){
 
-        Customer customer = new Customer(bean.getFirstName(), bean.getLastName());
+        Customer customer = new Customer(bean.getFirstName(), bean.getLastName(), bean.getMiddleName());
         Customer save = customerRepository.save(customer);
         return save;
     }
@@ -37,6 +37,7 @@ public class CustomerService {
 
         customerReturned.get().setFirstName(bean.getFirstName());
         customerReturned.get().setLastName(bean.getLastName());
+        customerReturned.get().setMiddleName(bean.getMiddleName());
         Customer returned = customerRepository.save(customerReturned.get());
         return  returned;
 
@@ -58,13 +59,11 @@ public class CustomerService {
 
     public void deleteCustomer(Long pk) {
         Optional<Customer> customerByPk = customerRepository.findById(pk);
-        if(customerByPk.isPresent()){
-            customerRepository.delete(customerByPk.get());
-        }
+        customerByPk.ifPresent(customer -> customerRepository.delete(customer));
     }
 
-    public Optional<Customer> searchByNomeECognome(String firstName, String lastName) {
-        return customerRepository.searchByFirstNameAndLastName(firstName, lastName);
+    public Optional<Customer> searchByNomeMiddleNameECognome(String firstName,String middleName, String lastName) {
+        return customerRepository.searchByFirstNameAndMiddleNameAndLastName(firstName,middleName, lastName);
     }
 
     // to do count
