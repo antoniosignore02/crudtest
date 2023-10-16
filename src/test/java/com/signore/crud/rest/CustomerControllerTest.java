@@ -1,7 +1,9 @@
 package com.signore.crud.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.signore.crud.model.Customer;
 import com.signore.crud.repositories.CustomerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -30,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Testcontainers
 @ContextConfiguration(initializers = {CustomerControllerTest.Initializer.class})
+@Slf4j
 class CustomerControllerTest {
 
     @Autowired
@@ -150,13 +154,20 @@ class CustomerControllerTest {
 
         String requestJson = "{\"customerId\":\""+savedcustomer.getId()+"\",\"bankName\":\"StadtSparkasse\",\"iban\":\"12345\"}";
 
-        mockMvc.perform(put(url)
+        MvcResult result = mockMvc.perform(put(url)
                                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE)
                                 .contentType(contentType)
                                 .content(requestJson))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()).andReturn();
 
+        String content = result.getResponse().getContentAsString();
+        log.info("test {}",content);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        Customer customer =  objectMapper.readValue(content, Customer.class);
+        Assertions.assertThat(customer.getBankAccountList().size()).isEqualTo(1);
     }
 
 }

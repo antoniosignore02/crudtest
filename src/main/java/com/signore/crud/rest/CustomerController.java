@@ -84,7 +84,12 @@ public class CustomerController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Customer update(@RequestBody BankAccountBean bankAccountBean) {
         // todo aggiunge il bank account passato dentro bankAccountBean al customer pk
-        return  null;
+        log.info("bank account ricevuto: {} ", bankAccountBean.toString());
+
+        Customer customer = customerService.addBankAccount(bankAccountBean);
+
+        return customer;
+
     }
 }
 

@@ -1,5 +1,6 @@
 package com.signore.crud.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -23,7 +24,7 @@ public class BankAccount {
     private String iban;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     @JoinColumn(name = "id_customer", nullable = false)
     private Customer customer;
 
