@@ -22,6 +22,4 @@ public class CustomerBean {
     private String middleName;
     private String lastName;
 
-    private List<BankAccount> bankAccountList;
-
 }

@@ -14,19 +14,17 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.hamcrest.Matchers.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Optional;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -76,21 +74,21 @@ class CustomerControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())    // <--- mi aspetto 200
                 .andExpect(content()
-                .string(containsString("\"firstName\":\"nicholas\",\"lastName\":\"signore\",\"middleName\":\"santos\""))); // <--- mi aspetto nicholas signore
+                        .string(containsString("\"firstName\":\"nicholas\",\"lastName\":\"signore\",\"middleName\":\"santos\""))); // <--- mi aspetto nicholas signore
 
     }
 
     @Test
     void getCustomerByPk() throws Exception {
 
-        Customer savedcustomer = customerRepository.save(new Customer("nicholas","santos", "signore"));
+        Customer savedcustomer = customerRepository.save(new Customer("nicholas", "santos", "signore"));
 
         this.mockMvc
                 .perform(get("/crud/customers/" + savedcustomer.getId()))
                 .andDo(print())
                 .andExpect(status().isOk())    // <--- mi aspetto 200
                 .andExpect(content()
-                        .string(containsString("{\"id\":"+ savedcustomer.getId() +",\"firstName\":\"nicholas\",\"lastName\":\"signore\",\"middleName\":\"santos\"}"))); // <--- mi aspetto nicholas signore
+                        .string(containsString("{\"id\":" + savedcustomer.getId() + ",\"firstName\":\"nicholas\",\"lastName\":\"signore\",\"middleName\":\"santos\"}"))); // <--- mi aspetto nicholas signore
 
     }
 
@@ -100,9 +98,11 @@ class CustomerControllerTest {
         String contentType = "application/json;charset=UTF-8";
         String requestJson = "{\"firstName\":\"Francesco\",\"middleName\":\"Santos\",\"lastName\":\"Signore\"}";
 
-        mockMvc.perform(post(url).contentType(contentType)
-                .content(requestJson))
-                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE))
+        mockMvc.perform(
+                        post(url)
+                                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE)
+                                .contentType(contentType)
+                                .content(requestJson))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -115,8 +115,8 @@ class CustomerControllerTest {
     @Test
     void findCustomer() throws Exception {
 
-        repository.save(new Customer("Francesco","Santos", "Signore"));
-        Optional<Customer> customers =  repository.searchByFirstNameAndMiddleNameAndLastName("Francesco", "Santos","Signore");
+        repository.save(new Customer("Francesco", "Santos", "Signore"));
+        Optional<Customer> customers = repository.searchByFirstNameAndMiddleNameAndLastName("Francesco", "Santos", "Signore");
 
         Assertions.assertThat(customers.isPresent()).isTrue();
 
@@ -130,7 +130,7 @@ class CustomerControllerTest {
     @Test
     void customerCount() throws Exception {
 
-        repository.save(new Customer("Francesco","Santos", "Signore"));
+        repository.save(new Customer("Francesco", "Santos", "Signore"));
 
         String url = "/crud/customers/count";
         mockMvc.perform(get(url))
@@ -141,8 +141,22 @@ class CustomerControllerTest {
         ;
     }
 
+    // scrivere il test per aggiungere un bankAccount al customer
+    @Test
+    void putNewCustomerBankAccoubt() throws Exception {
+        String url = "/crud/customers/bankaccounts";
+        String contentType = "application/json;charset=UTF-8";
+        Customer savedcustomer = customerRepository.save(new Customer("nicholas", "santos", "signore"));
 
+        String requestJson = "{\"customerId\":\""+savedcustomer.getId()+"\",\"bankName\":\"StadtSparkasse\",\"iban\":\"12345\"}";
 
+        mockMvc.perform(put(url)
+                                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE, MediaType.APPLICATION_JSON_VALUE)
+                                .contentType(contentType)
+                                .content(requestJson))
+                .andDo(print())
+                .andExpect(status().isOk());
 
+    }
 
 }

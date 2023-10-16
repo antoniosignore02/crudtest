@@ -1,5 +1,6 @@
 package com.signore.crud.rest;
 
+import com.signore.crud.beans.BankAccountBean;
 import com.signore.crud.beans.CustomerBean;
 import com.signore.crud.beans.CustomerUpdateBean;
 import com.signore.crud.model.Customer;
@@ -55,6 +56,7 @@ public class CustomerController {
         return customer;
     }
 
+
     // POST http://host:8080/crud/customer"
     @PostMapping(value = "/crud/customers",
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -77,6 +79,13 @@ public class CustomerController {
     }
 
 
+    @PutMapping(value = "/crud/customers/bankaccounts",
+            consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Customer update(@RequestBody BankAccountBean bankAccountBean) {
+        // todo aggiunge il bank account passato dentro bankAccountBean al customer pk
+        return  null;
+    }
 }
 
 

@@ -66,12 +66,8 @@ public class CustomerService {
         return customerRepository.searchByFirstNameAndMiddleNameAndLastName(firstName,middleName, lastName);
     }
 
-    // to do count
-
     public long count() {
         return customerRepository.count();
     }
-
-
 
 }
